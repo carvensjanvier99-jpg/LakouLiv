@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LakouLiv — Admin Dashboard</title>
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body class="bg-black text-white font-sans">
+
+    <header class="border-b border-zinc-800 bg-zinc-950 px-6 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-black text-red-600">LakouLiv <span class="text-white text-sm font-normal">| Espace Admin</span></h1>
+        <a href="/" class="text-xs bg-zinc-900 border border-zinc-700 px-3 py-1.5 rounded hover:bg-zinc-800">Voir le site</a>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-10">
+        <!-- FORMULAIRE POUR AJOUTER UN LIVRE -->
+        <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 mb-10">
+            <h2 class="text-lg font-bold mb-4 text-red-500">Ajouter un nouveau livre</h2>
+            
+            <form action="/admin/book/add" method="POST" enctype="multipart/form-data" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">Titre du livre</label>
+                        <input type="text" name="title" required class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-red-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">Auteur</label>
+                        <input type="text" name="author" required class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-red-600">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">Description</label>
+                    <textarea name="description" rows="3" required class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-red-600"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">Prix en Gourdes (HTG)</label>
+                        <input type="number" name="price" required class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-red-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">Catégorie</label>
+                        <select name="category" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-red-600">
+                            <option value="Éducation">Éducation / Edikasyon</option>
+                            <option value="Littérature">Littérature / Literati</option>
+                            <option value="Histoire">Histoire / Istwa</option>
+                            <option value="Technologie">Technologie / Teknoloji</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">Note / Rating (1 à 5)</label>
+                        <input type="number" name="rating" min="1" max="5" value="5" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-red-600">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">Image de Couverture (JPG/PNG)</label>
+                        <input type="file" name="cover" accept="image/*" required class="w-full text-xs text-zinc-400 bg-zinc-900 border border-zinc-800 rounded-lg p-2">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">Fichier du Livre (PDF uniquement)</label>
+                        <input type="file" name="pdf" accept=".pdf" required class="w-full text-xs text-zinc-400 bg-zinc-900 border border-zinc-800 rounded-lg p-2">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-3 rounded-lg text-sm transition mt-4">
+                    Publier le livre sur LakouLiv
+                </button>
+            </form>
+        </div>
+
+        <!-- LISTE DES LIVRES EN BASE -->
+        <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-6">
+            <h2 class="text-lg font-bold mb-4">Livres en ligne (<%= books.length %>)</h2>
+            <% if (books.length === 0) { %>
+                <p class="text-zinc-500 text-sm">Aucun livre n'a encore été ajouté. Utilisez le formulaire ci-dessus.</p>
+            <% } else { %>
+                <div class="space-y-3">
+                    <% books.forEach(book => { %>
+                        <div class="flex items-center justify-between p-3 bg-zinc-900 rounded-xl border border-zinc-800">
+                            <div class="flex items-center space-x-3">
+                                <img src="<%= book.coverUrl %>" class="w-10 h-14 object-cover rounded bg-zinc-800">
+                                <div>
+                                    <h4 class="font-bold text-sm truncate max-w-xs"><%= book.title %></h4>
+                                    <p class="text-xs text-zinc-400"><%= book.author %> — <span class="text-red-500"><%= book.price %> HTG</span></p>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-xs bg-zinc-800 border border-zinc-700 px-2.5 py-1.5 rounded hover:bg-zinc-700">Modifier</button>
+                                <button class="text-xs bg-red-950 border border-red-900 text-red-400 px-2.5 py-1.5 rounded hover:bg-red-900">Supprimer</button>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </div>
+    </main>
+
+</body>
+</html>

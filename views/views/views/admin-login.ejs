@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LakouLiv — Connexion Admin</title>
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen px-4">
+
+    <div class="w-full max-w-sm bg-zinc-950 border border-zinc-800 rounded-2xl p-6 shadow-xl">
+        <div class="text-center mb-6">
+            <span class="text-3xl font-black text-red-600 tracking-wider">Lakou<span class="text-white">Liv</span></span>
+            <p class="text-zinc-500 text-xs mt-1">Connexion à la gestion du catalogue</p>
+        </div>
+
+        <form action="/admin/login" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-xs text-zinc-400 mb-1">Email Administrateur</label>
+                <input type="email" name="email" required placeholder="lakouliv@gmail.com" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-red-600">
+            </div>
+            <div>
+                <label class="block text-xs text-zinc-400 mb-1">Mot de passe</label>
+                <input type="password" name="password" required class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-red-600">
+            </div>
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-lg text-sm transition pt-2">
+                Se connecter
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>
